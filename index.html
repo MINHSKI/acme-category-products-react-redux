@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <script src='/dist/bundle.js' defer></script>
+  </head>
+  <body>
+    <div id='root'></div>
+    <pre>
+- name of repo acme-category-products-react-redux
+- these should be your only get routes for your api
+<pre style='border: solid 1px black; padding: 5px;'>
+app.get('/api/products', (req, res, next)=> {
+  Product.findAll({
+  })
+    .then( products => res.send(products))
+    .catch(next);
+});
+
+app.get('/api/categories', (req, res, next)=> {
+  Category.findAll({
+  })
+    .then( products => res.send(products))
+    .catch(next);
+});
+</pre>
+- your reducer(s) are shown below
+<pre style='border: solid 1px black; padding: 5px;'>
+const SET_CATEGORIES = 'SET_CATEGORIES';
+const CREATE_CATEGORY = 'CREATE_CATEGORY';
+const DELETE_CATEGORY = 'DELETE_CATEGORY';
+
+const SET_PRODUCTS = 'SET_PRODUCTS';
+const CREATE_PRODUCT = 'CREATE_PRODUCT';
+const DELETE_PRODUCT = 'DELETE_PRODUCTS';
+
+const categoriesReducer = (state = [], action)=> {
+  switch(action.type){
+    case SET_CATEGORIES:
+      state = action.categories;
+      break;
+    case CREATE_CATEGORY:
+      state = [ ...state, action.category];
+      break;
+    case DELETE_CATEGORY:
+      state = state.filter( category => category.id !== action.category.id); 
+      break;
+  }
+  return state;
+};
+
+const productsReducer = (state = [], action)=> {
+  switch(action.type){
+    case SET_PRODUCTS:
+      state = action.products;
+      break;
+    case CREATE_PRODUCT:
+      state = [ ...state, action.product];
+      break;
+    case DELETE_CATEGORY:
+      state = state.filter( product => product.categoryId !== action.category.id); 
+      break;
+    case DELETE_PRODUCT:
+      state = state.filter( product => product.id !== action.product.id); 
+      break;
+  }
+  return state;
+};
+
+const reducer = combineReducers({
+  categories: categoriesReducer,
+  products: productsReducer
+});
+  </pre>
+  </body>
+</html>

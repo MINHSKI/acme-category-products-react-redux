@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Category from './Category';
 import Products from './Products';
+import Product from './Product';
 
 class App extends Component{
   componentDidMount(){
@@ -16,7 +17,8 @@ class App extends Component{
       <Router>
       <div>
         <Nav />
-        <Route path='/products' render={()=> <Products />} />
+        <Route exact path='/products' render={()=> <Products />} />
+        <Route path='/products/:id' render={({ match})=> <Product id={ match.params.id * 1 }/>} />
         <Route path='/categories/:id' render={({match})=> <Category id={ match.params.id * 1}/>} />
       </div>
       </Router>

@@ -1,14 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createProduct, deleteCategory } from './store';
+import ProductForm from './ProductForm';
 
-const Category = ({ category, products, createProduct, deleteCategory })=> {
+
+const Category = ({ category, products, createProduct, deleteCategory, editProduct, createNewProduct })=> {
   if(!category){
     return null
   }
   return (
     <div>
       <h1>{ category.name }</h1>
+      <ProductForm onSave={ createNewProduct }/>
       <button onClick={()=> deleteCategory(category)}>Delete Category</button>
       <button onClick={()=> createProduct(category)}>Add Product</button>
       <ul>
@@ -16,7 +20,8 @@ const Category = ({ category, products, createProduct, deleteCategory })=> {
         products.map( product => {
           return (
             <li key={ product.id }>
-              { product.name }
+              <ProductForm { ...product } onSave={ editProduct }/>
+              <Link to={`/products/${product.id}`}>{ product.name }</Link>
             </li>
           );
         })
@@ -26,8 +31,16 @@ const Category = ({ category, products, createProduct, deleteCategory })=> {
   );
 };
 
-const mapDispatchToProps = (dispatch)=> {
+const mapDispatchToProps = (dispatch, { id })=> {
   return {
+    editProduct: (product)=> {
+      console.log('editing', product);
+      console.log('btw the category is', id);
+    },
+    createNewProduct: (product)=> {
+      console.log('inserting', product);
+      console.log('btw the category is', id);
+    },
     createProduct: (category)=> dispatch(createProduct(category)),
     deleteCategory: (category)=> dispatch(deleteCategory(category))
   };

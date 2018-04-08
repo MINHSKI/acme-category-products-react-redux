@@ -79,12 +79,12 @@ const Category = conn.define('category', {
 },
   {
     hooks: {
-    beforeValidate: function(category){
-      if(!category.name){
-        category.name = `${generateRandomNumber()}-Category` 
+      beforeValidate: function(category){
+        if(!category.name){
+          category.name = `${generateRandomNumber()}-Category` 
+        }
       }
     }
-  }
   });
 
 const Product = conn.define('product', {
@@ -96,9 +96,9 @@ const Product = conn.define('product', {
 },
   {
     hooks: {
-    beforeValidate: function(category){
-      if(!category.name){
-        category.name = `${generateRandomNumber()}-Product` 
+    beforeValidate: function(product){
+      if(!product.name){
+        product.name = `${generateRandomNumber()}-Product` 
       }
     }
   }
